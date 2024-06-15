@@ -32,28 +32,36 @@ class RulesetContainer extends Component {
 
     generateFile() {
       const { ruleset } = this.props;
-    
       const modifiedRuleset = { ...ruleset };
+    
+      const fileData1 = JSON.stringify(ruleset, null, '\t');
+      const blob1 = new Blob([fileData1], { type: "application/json" });
+      const url1 = URL.createObjectURL(blob1);
+      const link1 = document.createElement('a');
+      link1.download = ruleset.name + '_upload.json';
+      link1.href = url1;
+      link1.click();
+    
+      this.setState({ generateFlag: true });
     
       const transformConditions = (conditions) => {
         if (!conditions) return null;
     
         if (conditions.all) {
           return {
-            type: 'all',
+            type: 'and',
             children: conditions.all.map(condition => transformCondition(condition))
           };
         } else if (conditions.any) {
           return {
-            type: 'any',
+            type: 'or',
             children: conditions.any.map(condition => transformCondition(condition))
           };
         } else {
           return null;
         }
       };
-      
-
+    
       const transformCondition = (condition) => {
         if (condition.fact && condition.operator) {
           let value = condition.value;
@@ -74,8 +82,7 @@ class RulesetContainer extends Component {
           return transformConditions(condition);
         }
       };
-
-      // Transform the conditions structure in the decisions array
+    
       if (modifiedRuleset.decisions) {
         modifiedRuleset.decisions = modifiedRuleset.decisions.map(decision => {
           if (decision.conditions) {
@@ -88,21 +95,21 @@ class RulesetContainer extends Component {
         });
       }
     
-      // Extract only the conditions part
-      const conditionsOnly = modifiedRuleset.decisions.map(decision => decision.conditions)[0]; // Accessing the first (and only) object
+      const conditionsOnly = modifiedRuleset.decisions.map(decision => decision.conditions)[0];
       
-      // Convert only the conditions part to JSON string
-      const fileData = JSON.stringify(conditionsOnly, null, '\t');
-      console.log(fileData); // This will log the final JSON format with only the conditions part
+      const fileData2 = JSON.stringify(conditionsOnly, null, '\t');
+      console.log(fileData2);
     
-      const blob = new Blob([fileData], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.download = modifiedRuleset.name + '.json';
-      link.href = url;
-      link.click();
+      const blob2 = new Blob([fileData2], { type: "application/json" });
+      const url2 = URL.createObjectURL(blob2);
+      const link2 = document.createElement('a');
+      link2.download = modifiedRuleset.name + '.json';
+      link2.href = url2;
+      link2.click();
+      
       this.setState({ generateFlag: true });
     }
+    
     
     cancelAlert() {
       this.setState({ generateFlag: false })
