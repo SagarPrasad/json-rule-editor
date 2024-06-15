@@ -25,17 +25,19 @@ const addCustomOperators = (engine) => {
   });
 
   engine.addOperator('starts_with', (factValue, jsonValue) => {
-    if (typeof factValue !== 'string' || typeof jsonValue !== 'string') {
-      return false;
+    if (!Array.isArray(factValue)) {
+      factValue = [factValue]; // Convert factValue to an array if it's not already
     }
-    return factValue.startsWith(jsonValue);
+    const values = jsonValue.split(',').map(val => val.trim());
+    return values.some(jsonVal => factValue.some(factVal => typeof factVal === 'string' && factVal.startsWith(jsonVal)));
   });
 
   engine.addOperator('ends_with', (factValue, jsonValue) => {
-    if (typeof factValue !== 'string' || typeof jsonValue !== 'string') {
-      return false;
+    if (!Array.isArray(factValue)) {
+      factValue = [factValue]; // Convert factValue to an array if it's not already
     }
-    return factValue.endsWith(jsonValue);
+    const values = jsonValue.split(',').map(val => val.trim());
+    return values.some(jsonVal => factValue.some(factVal => typeof factVal === 'string' && factVal.endsWith(jsonVal)));
   });
 
   engine.addOperator('matches', (factValue, jsonValue) => {
@@ -54,12 +56,6 @@ const addCustomOperators = (engine) => {
   engine.addOperator('in', (factValue, jsonValue) => jsonValue.includes(factValue));
 
   engine.addOperator('not_in', (factValue, jsonValue) => !jsonValue.includes(factValue));
-  
-  engine.addOperator('and', (factValue, jsonValue) => Array.isArray(jsonValue));
-
-  engine.addOperator('or', (factValue, jsonValue) => Array.isArray(jsonValue));
-  
-  engine.addOperator('not', (factValue, jsonValue) => Array.isArray(jsonValue));
 };
 
 // Function to process the rules engine with given facts and conditions

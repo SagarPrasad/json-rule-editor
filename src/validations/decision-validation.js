@@ -20,11 +20,9 @@ const fieldValidationByType = (value, type, operator) => {
             return ["less_than", "less_than_equals", "greater_than", "greater_than_equals", "between"].includes(operator);
         case 'string':
             if (["empty", "not_empty"].includes(operator)) return true;
-            return ["empty", "not_empty", "starts_with", "ends_with", "matches"].includes(operator);
+            return ["starts_with", "ends_with", "matches"].includes(operator);
         case 'meta':
             return ["exists", "not_exists"].includes(operator);
-        case 'joiner':
-            return ["and", "or", "not"].includes(operator);
         case 'collection':
             return ["contains_any", "contains_all", "in", "not_in"].includes(operator);
         default:
@@ -34,9 +32,12 @@ const fieldValidationByType = (value, type, operator) => {
 
 export const validateAttribute = (attribute, attributes) => {
     const error = {};
+
     if (isEmpty(attribute.operator)) {
         error.operator = 'Please specify the operator type';
     }
+
+    // Skip value validation for 'empty' and 'not_empty' operators
     if (!["empty", "not_empty"].includes(attribute.operator)) {
         if (isEmpty(attribute.value)) {
             error.value = 'Please specify the attribute value';
@@ -44,8 +45,16 @@ export const validateAttribute = (attribute, attributes) => {
             if (attribute.name) {
                 const attProps = attributes.find(att => att.name === attribute.name);
                 if (attProps && attProps.type) {
-                    if (!fieldValidationByType(attribute.value, attProps.type, attribute.operator)) {
-                        error.value = 'Please specify the valid attribute value';
+                    if (attProps.type === 'numeric') {
+                        // Check if the value is numeric (including floating-point)
+                        if (!/^\d*\.?\d+$/.test(attribute.value)) {
+                            error.value = 'Please specify a numeric value';
+                        }
+                    } else {
+                        // For non-numeric types, ensure that the value is not empty
+                        if (isEmpty(attribute.value)) {
+                            error.value = 'Please specify the attribute value';
+                        }
                     }
                 }
             }
@@ -58,8 +67,6 @@ export const validateAttribute = (attribute, attributes) => {
 
     return error;
 };
-
-
 
 export default function decisionValidations(node = {}, outcome) {
     const error = { node: {}, outcome: {} };
