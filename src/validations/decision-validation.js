@@ -37,7 +37,6 @@ export const validateAttribute = (attribute, attributes) => {
         error.operator = 'Please specify the operator type';
     }
 
-    // Skip value validation for 'empty' and 'not_empty' operators
     if (!["empty", "not_empty"].includes(attribute.operator)) {
         if (isEmpty(attribute.value)) {
             error.value = 'Please specify the attribute value';
@@ -45,13 +44,11 @@ export const validateAttribute = (attribute, attributes) => {
             if (attribute.name) {
                 const attProps = attributes.find(att => att.name === attribute.name);
                 if (attProps && attProps.type) {
-                    if (attProps.type === 'numeric') {
-                        // Check if the value is numeric (including floating-point)
+                    if (attProps.type === 'numeric' && attribute.operator!='between') {
                         if (!/^\d*\.?\d+$/.test(attribute.value)) {
                             error.value = 'Please specify a numeric value';
                         }
                     } else {
-                        // For non-numeric types, ensure that the value is not empty
                         if (isEmpty(attribute.value)) {
                             error.value = 'Please specify the attribute value';
                         }

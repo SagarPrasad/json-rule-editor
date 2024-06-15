@@ -4,7 +4,8 @@ export const DATA_TYPES = {
     STRING: 'string',
     META: 'meta',
     JOINER: 'joiner',
-    COLLECTION: 'collection'
+    COLLECTION: 'collection',
+    BETWEEN:'Between'
 };
 
 export const PLACEHOLDER = {
@@ -13,5 +14,6 @@ export const PLACEHOLDER = {
     'string': 'Enter value',
     'meta': 'Specify existence',
     'joiner': 'Ex: item1,item2,item3,..',
-    'collection': 'Ex: item1,item2,item3,..'
+    'collection': 'Ex: item1,item2,item3,..',
+    'Between': 'EX: item1,item2 '
 };

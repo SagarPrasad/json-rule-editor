@@ -287,7 +287,7 @@ class AddDecision extends Component {
         const { background } = this.context;
 
         const placeholder = addAttribute.operator === 'between' ?
-         PLACEHOLDER['string'] : PLACEHOLDER[attribute.type]
+         PLACEHOLDER['Between'] : PLACEHOLDER[attribute.type]
 
         return (<Panel>
             

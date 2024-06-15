@@ -7,7 +7,11 @@ export const NO_CHANGES_MSG = {header: NO_CHANGES_HEADER, body: NO_CHANGES_BODY,
 
 
 const MODIFIED_HEADER = 'Submit Ruleset';
-const MODIFIED_BODY = 'You have created / modified this ruleset. Do you want to save these changes into ruleset file?'
+const MODIFIED_BODY = `
+  You have created or modified this ruleset. Do you want to save these changes into the ruleset file?
+  * anonymous_upload.json (for uploading)
+  * anonymous.json (JSON format)
+`;
 export const MODIFIED_MSG = {header: MODIFIED_HEADER, body: MODIFIED_BODY, type: 'submit-panel', buttonProps: BUTTON_PROPS_NO_CHANGES,};
 
 

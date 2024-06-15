@@ -1,6 +1,5 @@
 import { Engine } from 'json-rules-engine';
 
-// Function to add custom operators to the rules engine
 const addCustomOperators = (engine) => {
   engine.addOperator('equals', (factValue, jsonValue) => factValue === jsonValue);
 
@@ -26,7 +25,7 @@ const addCustomOperators = (engine) => {
 
   engine.addOperator('starts_with', (factValue, jsonValue) => {
     if (!Array.isArray(factValue)) {
-      factValue = [factValue]; // Convert factValue to an array if it's not already
+      factValue = [factValue]; 
     }
     const values = jsonValue.split(',').map(val => val.trim());
     return values.some(jsonVal => factValue.some(factVal => typeof factVal === 'string' && factVal.startsWith(jsonVal)));
@@ -34,7 +33,7 @@ const addCustomOperators = (engine) => {
 
   engine.addOperator('ends_with', (factValue, jsonValue) => {
     if (!Array.isArray(factValue)) {
-      factValue = [factValue]; // Convert factValue to an array if it's not already
+      factValue = [factValue];
     }
     const values = jsonValue.split(',').map(val => val.trim());
     return values.some(jsonVal => factValue.some(factVal => typeof factVal === 'string' && factVal.endsWith(jsonVal)));
@@ -45,9 +44,21 @@ const addCustomOperators = (engine) => {
     return re.test(factValue);
   });
 
-  engine.addOperator('exists', (factValue) => factValue !== undefined && factValue !== null);
-
-  engine.addOperator('not_exists', (factValue) => factValue === undefined || factValue === null);
+  const getValueAtPath = (obj, path) => {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  };
+  
+  // Add 'exists' operator
+  engine.addOperator('exists', (factValue, jsonData) => {
+    const value = getValueAtPath(jsonData, factValue);
+    return value !== undefined && value !== null;
+  });
+  
+  // Add 'not_exists' operator
+  engine.addOperator('not_exists', (factValue, jsonData) => {
+    const value = getValueAtPath(jsonData, factValue);
+    return value === undefined || value === null;
+  });
 
   engine.addOperator('contains_any', (factValue, jsonValue) => jsonValue.some(val => factValue.includes(val)));
 
@@ -58,7 +69,6 @@ const addCustomOperators = (engine) => {
   engine.addOperator('not_in', (factValue, jsonValue) => !jsonValue.includes(factValue));
 };
 
-// Function to process the rules engine with given facts and conditions
 export const processEngine = (facts, conditions) => {
   const engine = new Engine(conditions);
   addCustomOperators(engine);
@@ -71,7 +81,6 @@ export const processEngine = (facts, conditions) => {
     });
 };
 
-// Function to validate the ruleset
 export const validateRuleset = async (facts, conditions) => {
   try {
     const result = await processEngine(facts, conditions);

@@ -32,7 +32,7 @@ const mapParentNode = (name) => {
     return ({name, nodeSvgShape, children : []});
 };
 
-//global variable to determine the depth
+
 let depthCount;
 
 const mapConditionsToChildren = (condition={}, depth) => {
