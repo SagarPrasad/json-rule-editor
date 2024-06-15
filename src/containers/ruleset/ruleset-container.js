@@ -33,10 +33,8 @@ class RulesetContainer extends Component {
     generateFile() {
       const { ruleset } = this.props;
     
-      // Make a copy of the ruleset to avoid mutating the original props
       const modifiedRuleset = { ...ruleset };
     
-      // Recursive function to transform conditions
       const transformConditions = (conditions) => {
         if (!conditions) return null;
     
@@ -54,20 +52,29 @@ class RulesetContainer extends Component {
           return null;
         }
       };
-      // Function to transform an individual condition
+      
+
       const transformCondition = (condition) => {
         if (condition.fact && condition.operator) {
-          return {
-            path: condition.fact,
-            type: condition.operator,   
-            value: condition.value
-          };
+          let value = condition.value;
+          if (Array.isArray(value) && value.length > 1) {
+            return {
+              path: condition.fact,
+              type: condition.operator,
+              values: value 
+            };
+          } else {
+            return {
+              path: condition.fact,
+              type: condition.operator,
+              value: value
+            };
+          }
         } else {
-          // Handle nested conditions
           return transformConditions(condition);
         }
       };
-    
+
       // Transform the conditions structure in the decisions array
       if (modifiedRuleset.decisions) {
         modifiedRuleset.decisions = modifiedRuleset.decisions.map(decision => {

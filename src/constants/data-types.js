@@ -1,3 +1,17 @@
-export const DATA_TYPES = {STRING: 'string', BOOLEAN: 'boolean', NUMBER: 'number', ARRAY: 'array'};
+export const DATA_TYPES = {
+    EQUALITY: 'equality',
+    NUMERIC: 'numeric',
+    STRING: 'string',
+    META: 'meta',
+    JOINER: 'joiner',
+    COLLECTION: 'collection'
+};
 
-export const PLACEHOLDER = { 'string': 'Enter value', 'number': 'Enter numerical value', 'array': 'Ex: item1,item2,item3'};
+export const PLACEHOLDER = {
+    'equality': 'Enter value',
+    'numeric': 'Enter numerical value',
+    'string': 'Enter value',
+    'meta': 'Specify existence',
+    'joiner': 'Ex: item1,item2,item3,..',
+    'collection': 'Ex: item1,item2,item3,..'
+};

@@ -1,6 +1,8 @@
 {
-    "string": ["equal", "notEqual", "startsWith", "endsWith"],
-    "number": ["equal", "lessThan", "lessThanInclusive", "greaterThan", "greaterThanInclusive", "notEqual"],
-    "array": ["contains", "doesNotContain", "in", "notIn"],
-    "object": ["equal", "notEqual", "lessThan", "lessThanInclusive", "greaterThan", "greaterThanInclusive", "contains", "doesNotContain", "in", "notIn"]
+    "equality": ["equals","not_equals"],
+    "numeric": ["less_than", "less_than_equals", "greater_than", "greater_than_equals", "between"],
+    "string": ["empty", "not_empty", "starts_with", "ends_with","matches"],
+    "meta": ["exists","not_exists"],
+    "joiner": ["and", "or", "not"],
+    "collection": ["contains_any", "contains_all", "in", "not_in"]
 }

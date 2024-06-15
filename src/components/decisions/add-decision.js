@@ -286,7 +286,7 @@ class AddDecision extends Component {
         const operatorOptions = attribute && operator[attribute.type];
         const { background } = this.context;
 
-        const placeholder = addAttribute.operator === 'contains' || addAttribute.operator === 'doesNotContain' ?
+        const placeholder = addAttribute.operator === 'between' ?
          PLACEHOLDER['string'] : PLACEHOLDER[attribute.type]
 
         return (<Panel>
@@ -301,9 +301,17 @@ class AddDecision extends Component {
                 <div><SelectField options={attributeOptions} onChange={(e) => this.onChangeNewFact(e, 'name')}
                         value={addAttribute.name} error={addAttribute.error.name} label="Facts"/></div>
                 <div><SelectField options={operatorOptions} onChange={(e) => this.onChangeNewFact(e, 'operator')}
-                        value={addAttribute.operator} error={addAttribute.error.operator} label="Operator"/></div>
-                <div><InputField onChange={(value) => this.onChangeNewFact(value, 'value')} value={addAttribute.value}
-                        error={addAttribute.error.value} label="Value" placeholder={placeholder}/></div>
+                        value={addAttribute.operator} error={addAttribute.error.operator} label="Operator"/></div>{!["empty", "not_empty"].includes(addAttribute.operator) && (
+                            <div>
+                                <InputField
+                                    onChange={(value) => this.onChangeNewFact(value, 'value')}
+                                    value={addAttribute.value}
+                                    error={addAttribute.error.value}
+                                    label="Value"
+                                    placeholder={placeholder}
+                                />
+                            </div>
+                        )}
             </div>
 
             { addPathflag && <div className="add-field-panel half-width">

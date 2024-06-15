@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { TitlePanel } from '../../components/panel/panel';
-import InputField from '../../components/forms/input-field';
-import Button from '../../components//button/button';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { includes } from 'lodash/collection';
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { createHashHistory } from 'history';
+import { includes } from 'lodash/collection';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { addRuleset } from '../../actions/ruleset';
+import Button from '../../components//button/button';
+import InputField from '../../components/forms/input-field';
 import Notification from '../../components/notification/notification';
+import { TitlePanel } from '../../components/panel/panel';
 import { RULE_AVAILABLE_CREATE } from '../../constants/messages';
-import { faSquarePlus } from '@fortawesome/free-solid-svg-icons'
 
 class CreateRulesetContainer extends Component {
 
