@@ -10,11 +10,11 @@ import { getNodeDepth, getNodeDepthDetails } from '../../utils/treeutils';
 import decisionValidations, { validateAttribute } from '../../validations/decision-validation';
 import Button from '../button/button';
 import ButtonGroup from '../button/button-groups';
+import Dialog from '../forms/dialog';
 import InputField from '../forms/input-field';
 import SelectField from '../forms/selectmenu-field';
 import Panel from '../panel/panel';
 import Tree from '../tree/tree';
-
 
 const nodeStyle ={
     shape: 'circle',
@@ -56,6 +56,7 @@ class AddDecision extends Component {
              outcomeOptions: outcomeOptions.map(f => ({ ...f, disable: true })),
              formError: '',
              addPathflag: false,
+             showDialog: false,
              activeNodeDepth: [activeNode] };
         this.handleAdd = this.handleAdd.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
@@ -69,6 +70,8 @@ class AddDecision extends Component {
         this.handleOutputParams = this.handleOutputParams.bind(this);
         this.addParams = this.addParams.bind(this);
         this.addPath = this.addPath.bind(this);
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleAdd(e) {
@@ -111,6 +114,7 @@ class AddDecision extends Component {
 
      addPath() {
         this.setState({ addPathflag: true });
+        this.setState({ showDialog: false });
      }
 
      handleOutputParams(e, type, index){
@@ -278,6 +282,13 @@ class AddDecision extends Component {
         <div className="step3"><div> Step 3: Add Outcome</div><ButtonGroup buttons={outcomeOptions} onConfirm={this.handleOutputPanel} /></div>
       </div>)
     }
+    handleClickOpen() {
+        this.setState({ showDialog: true });
+    }
+
+    handleClose() {
+        this.setState({ showDialog: false });
+    }
 
     fieldPanel() {
         const { attributes, addAttribute, addPathflag} = this.state;
@@ -288,13 +299,22 @@ class AddDecision extends Component {
 
         const placeholder = addAttribute.operator === 'between' ?
          PLACEHOLDER['Between'] : PLACEHOLDER[attribute.type]
-
         return (<Panel>
             
             <div className={`attributes-header ${background}`}>
-                    <div className="attr-link" onClick={this.addPath}>
-                        <span className="plus-icon" /><span className="text">Add Path</span> 
+                <div className="attr-link" onClick={this.handleClickOpen}>
+                    <span className="plus-icon" /><span className="text">Add Path</span>
+                </div>
+                <Dialog open={this.state.showDialog} onClose={this.handleClose}>
+                    <div style={{ textAlign: 'center' }}>
+                        <input type='text' placeholder='Input your json' style={{ marginBottom: '10px' }} />
+                        <br></br>
+                        <div className="attr-link" onClick={this.addPath} style={{ display: 'inline-block', cursor: 'pointer' }}>
+                            <span className="plus-icon"></span><span className="text">Choose Path</span> 
+                        </div>
                     </div>
+                </Dialog>
+
             </div>
 
             <div className="add-field-panel">
