@@ -67,14 +67,16 @@ class RulesetContainer extends Component {
           let value = condition.value;
           if (Array.isArray(value) && value.length > 1) {
             return {
-              path: condition.fact,
+              //fact: condition.fact,
               type: condition.operator,
-              values: value 
+              path: condition.path,
+              values: value
             };
           } else {
             return {
-              path: condition.fact,
+              //fact: condition.fact,
               type: condition.operator,
+              path: condition.path,
               value: value
             };
           }
