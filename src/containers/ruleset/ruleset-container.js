@@ -69,14 +69,14 @@ class RulesetContainer extends Component {
             return {
               //fact: condition.fact,
               type: condition.operator,
-              path: condition.path,
+              path: '$'+ condition.path,
               values: value
             };
           } else {
             return {
               //fact: condition.fact,
               type: condition.operator,
-              path: condition.path,
+              path: '$'+ condition.path,
               value: value
             };
           }
@@ -97,7 +97,7 @@ class RulesetContainer extends Component {
         });
       }
     
-      const conditionsOnly = modifiedRuleset.decisions.map(decision => decision.conditions)[0];
+      const conditionsOnly = modifiedRuleset.decisions.map(decision => decision.conditions);
       
       const fileData2 = JSON.stringify(conditionsOnly, null, '\t');
       console.log(fileData2);
