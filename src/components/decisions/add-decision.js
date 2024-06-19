@@ -338,22 +338,53 @@ class AddDecision extends Component {
         }
     }
 
-    getAllPaths(obj, currentPath = '') {
-        let paths = [];
+    // getAllPaths(obj, currentPath = '') {
+    //     let paths = [];
 
+    //     for (let key in obj) {
+    //         if (obj.hasOwnProperty(key)) {
+    //             const value = obj[key];
+    //             const newPath = currentPath ? `${currentPath}.${key}` : key;
+    //             paths.push(newPath);
+    //             if (typeof value === 'object' && value !== null) {
+    //                 paths = paths.concat(this.getAllPaths(value, newPath));
+    //             }
+    //         }
+    //     }
+
+    //     return paths;
+    // }
+
+    getAllPaths = (obj, currentPath = '') => {
+        let paths = [];
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {
                 const value = obj[key];
                 const newPath = currentPath ? `${currentPath}.${key}` : key;
                 paths.push(newPath);
-                if (typeof value === 'object' && value !== null) {
+
+                if (Array.isArray(value)) {
+                    const arrayPath = `${newPath}[*]`;
+                    paths.push(arrayPath);
+
+                    value.forEach((item, index) => {
+                        if (typeof item === 'object' && item !== null) {
+                            paths = paths.concat(this.getAllPaths(item, `${arrayPath}`));
+                        }
+                    });
+                } else if (typeof value === 'object' && value !== null) {
                     paths = paths.concat(this.getAllPaths(value, newPath));
                 }
             }
         }
-
         return paths;
     }
+
+    
+    handleInputChange = (event) => {
+        this.setState({ jsonInput: event.target.value });
+    }
+
 
     fieldPanel() {
         const { attributes, addAttribute, addPathflag } = this.state;
