@@ -2,4 +2,4 @@
 
 ## Contributors
 - [Vinaya K](https://github.com/Vinayak2004/)
-- [Contributor 2](https://github.com/Saksham-Chandra)
+- [Saksham Chandra](https://github.com/Saksham-Chandra)
