@@ -2,7 +2,7 @@
   "name": "json-rule-editor",
   "version": "1.0.0",
   "description": "json-rule-editor",
-  "homepage": "https://sagarprasad.github.com/json-rule-editor",
+  "homepage": "https://sagarprasad.github.io/json-rule-editor",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --hot",
