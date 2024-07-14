@@ -5,8 +5,7 @@
   "homepage": "https://sagarprasad.github.io/json-rule-editor",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "start": "webpack-dev-server --hot",
     "lint": "eslint 'src/**/*.js' -f table --max-warnings 0",
     "build": "webpack --mode=production"
   },
