@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint 'src/**/*.js' -f table --max-warnings 0",
-    "build": "webpack --mode=production"
+    "build": "webpack --config webpack.config.js"
   },
   "author": "test@gmail.com",
   "license": "ISC",
